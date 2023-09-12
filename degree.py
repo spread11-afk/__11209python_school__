@@ -1,3 +1,4 @@
-a=input(30)
+a=input(int(30))
+
 
 
