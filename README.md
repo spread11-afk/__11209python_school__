@@ -1,7 +1,7 @@
 # __11209python_school__
 ## Pthon語言
 [2023_09_11作業](./資料夾1/README.md)
-[2023_09_11作業](./資料夾1/lesson5.ipyb)
+[2023_09_11作業](./資料夾1/lesson5.ipynb)
 
 
 
