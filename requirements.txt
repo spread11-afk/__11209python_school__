@@ -1,2 +1,1 @@
-# 告知其他使用者使用的程式及版本號
-PyInputPlus==0.2.12
+PyInputPlus>=0.2.12
