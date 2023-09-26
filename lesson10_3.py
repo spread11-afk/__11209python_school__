@@ -33,6 +33,11 @@ def playGame():
 while True:
     playGame()
     answer = pyip.inputYesNo(prompt="還要繼續嗎?(y,n)",yesVal='y',noVal='n')
+    try:
+        val = int(answer)
+    except:
+        print("豬頭")
+        continue
     if not (answer == 'y'):
         break
 print("遊戲結束")
