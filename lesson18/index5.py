@@ -59,9 +59,7 @@ def main():
     myFrame = MyFrame(window,'對齊方式')
     window.mainloop()
 
-scrollbar = ttk.Scrollbar(self.tree, orient=tk.VERTICAL, command=self.tree.yview)
-self.tree.configure(yscroll=scrollbar.set)
-scrollbar.grid(row=0, column=1, sticky='ns')
+
 
 
 if __name__ == '__main__':

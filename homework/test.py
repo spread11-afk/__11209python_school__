@@ -1,29 +1,60 @@
-import requests,csv,io
+import tkinter as tk
+import csv
+from tkinter import ttk
+from PIL import Image,ImageTk
+from tkinter.simpledialog import Dialog
+from tkinter.messagebox import showinfo
 
-__ceties = []
-
-def __download()->list[list]:
-    url = 'https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=CA18EE06-4A50-4861-9D97-7853353D7108'
-
-    response = requests.request('GET',url)
-    try:
-        response.raise_for_status()
-    except:
-        raise Exception("連線錯誤","網路中斷")
+class Window(tk.Tk):
+    def __init__(self, **kwargs,) -> None:
+        super().__init__(**kwargs)
+        self.title('Image')
+        #self.geometry("300x250")
         
-    else:    
-        if not response.ok:
-            raise Exception("下載失敗","伺服器錯誤")
-            
-        else:
-            file = io.StringIO(response.text)
-            csv_reader = csv.reader(file)
-            next(csv_reader)
-            return list(csv_reader)
+
+class MyFrame(ttk.LabelFrame):
+    def __init__(self, master,title,**kwargs) -> None:
+        super().__init__(master,text=title,**kwargs)
+        self.pack(expand=1,fill='both',pady=10)
+
+        self.tree = ttk.Treeview(self,columns=['#1','#2','#3','#4','#5','#6','#7'],show='headings')
+        self.tree.heading('#1',text='第一欄')
+        self.tree.heading('#2',text='第二欄')
+        self.tree.heading('#3',text='第三欄')
+        self.tree.heading('#4',text='第四欄')
+        self.tree.heading('#5',text='第五欄')
+        self.tree.heading('#6',text='第六欄')
+        self.tree.heading('#7',text='第七欄')
+        
+        f = open('tgd.csv','r')
+        csvreader = csv.reader(f)
+        final_list = list(csvreader)
+        
+
+        for contact in final_list:
+            self.tree.insert('',tk.END,value=contact)
+        
+        self.tree.pack()
+
+        self.tree.bind('<<TreeviewSelect>>',self.item_selected)
+
+
+    def item_selected(self,event):
+        item_id = self.tree.selection()[0]
+        item_dict = self.tree.item(item_id)
+        print(item_dict['values'])
+
+        
+
+
+
+    def choised(self):
+        print(self.aligement.get())
+
 
 def main():
-    data_list = __download() 
+    window = Window()
+    myFrame = MyFrame(window,'對齊方式')
+    window.mainloop()
 
 
-if __name__ == "__main__": 
-    main()
