@@ -20,10 +20,14 @@ class MyFrame(ttk.LabelFrame):
         super().__init__(master,text=title,**kwargs)
         self.pack(expand=1,fill='both',pady=10)
 
-        self.tree = ttk.Treeview(self,columns=['#1','#2','#3'],show='headings')
+        self.tree = ttk.Treeview(self,columns=['#1','#2','#3','#4','#5','#6','#7'],show='headings')
         self.tree.heading('#1',text='第一欄')
         self.tree.heading('#2',text='第二欄')
         self.tree.heading('#3',text='第三欄')
+        self.tree.heading('#4',text='第四欄')
+        self.tree.heading('#5',text='第五欄')
+        self.tree.heading('#6',text='第六欄')
+        self.tree.heading('#7',text='第七欄')
         
         contacts = []
         for n in range(1,100):
@@ -53,5 +57,11 @@ def main():
     myFrame = MyFrame(window,'對齊方式')
     window.mainloop()
 
+scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
+tree.configure(yscroll=scrollbar.set)
+scrollbar.grid(row=0, column=1, sticky='ns')
+
+
 if __name__ == '__main__':
     main()
+
