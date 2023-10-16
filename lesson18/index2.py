@@ -9,7 +9,7 @@ from PIL import Image,ImageTk
 class Window(tk.Tk):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.geometry("1902x1070")
+        self.geometry("2000x2000")
         self.title('Lines')
         self.configure(background='red')
 
@@ -20,13 +20,13 @@ class MyFrame(tk.Frame):
         canvas = tk.Canvas(self)
         canvas.create_line(15,30,200,30)
         canvas.create_line(300,35,300,200,dash = (4,2))
-        canvas.create_line(55,85,155,85,105,180,55,85)
         self.img = Image.open('221009gallery.jpg')
         self.bot = ImageTk.PhotoImage(self.img)
-        canvas = tk.Canvas(self,width=1902,height=1070)
-        canvas.create_image(24,24,image=self.bot,anchor=tk.CENTER)
-        canvas.pack()
+        botLable = tk.Label(self,image=self.bot)
+        botLable.pack()
         self.pack(expand=1,fill='both')
+
+
 
 
 def main():
