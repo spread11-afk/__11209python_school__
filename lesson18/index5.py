@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image,ImageTk
 from tkinter.simpledialog import Dialog
-
+from tkinter.messagebox import showinfo
 
 
 class Window(tk.Tk):
@@ -46,6 +46,8 @@ class MyFrame(ttk.LabelFrame):
         item_dict = self.tree.item(item_id)
         print(item_dict['values'])
 
+        
+
 
 
     def choised(self):
@@ -57,8 +59,8 @@ def main():
     myFrame = MyFrame(window,'對齊方式')
     window.mainloop()
 
-scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
-tree.configure(yscroll=scrollbar.set)
+scrollbar = ttk.Scrollbar(self.tree, orient=tk.VERTICAL, command=self.tree.yview)
+self.tree.configure(yscroll=scrollbar.set)
 scrollbar.grid(row=0, column=1, sticky='ns')
 
 
