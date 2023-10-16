@@ -27,8 +27,6 @@ class MyFrame(tk.Frame):
         self.pack(expand=1,fill='both')
 
 
-def resize(w,h,w_box,h_box,self.bot):
-    pass
 
 def main():
     window = Window()

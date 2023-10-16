@@ -29,6 +29,8 @@ def choised(self):
 def main():
     window = Window()
     myFrame = MyFrame(window,'對齊方式')
+    s = ttk.Style()
+    print(s.theme_names)
     window.mainloop()
 
 if __name__ == '__main__':
