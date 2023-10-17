@@ -50,7 +50,7 @@ class Window(tk.Tk):
     def user_selected(self,event):
         selectedIndex = self.listbox.curselection()[0]
         cityName = self.listbox.get(selectedIndex)
-        print(dataSource.info(cityName))
+        #print(dataSource.info(cityName))
         datalist = dataSource.info(cityName)
         self.yearVar.set(datalist[0]) 
         self.cityVar.set(datalist[1]) 
