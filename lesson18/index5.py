@@ -2,7 +2,7 @@
 這是說明,學習Canvas
 '''
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk 
 from PIL import Image,ImageTk
 from tkinter.simpledialog import Dialog
 from tkinter.messagebox import showinfo
@@ -28,6 +28,8 @@ class MyFrame(ttk.LabelFrame):
         self.tree.heading('#5',text='第五欄')
         self.tree.heading('#6',text='第六欄')
         self.tree.heading('#7',text='第七欄')
+        self.tree.pack()
+        
         
         contacts = []
         for n in range(1,100):
@@ -36,11 +38,16 @@ class MyFrame(ttk.LabelFrame):
         for contact in contacts:
             self.tree.insert('',tk.END,value=contact)
         
-        self.tree.pack()
-
+        
+        
         self.tree.bind('<<TreeviewSelect>>',self.item_selected)
+        self.tree.grid(row=0, column=0, sticky='nsew')
 
+        scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=scrollbar.set)
+        scrollbar.grid(row=0, column=1, sticky='ns')
 
+    
     def item_selected(self,event):
         item_id = self.tree.selection()[0]
         item_dict = self.tree.item(item_id)
