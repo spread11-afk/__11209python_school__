@@ -61,7 +61,7 @@ class MyFrame(ttk.LabelFrame):
                 tk.Label(master, text='最　 　高　　　價：').grid(row=2, sticky=tk.W)
                 tk.Label(master, text='最　 　低　　　價：').grid(row=3, sticky=tk.W)
                 tk.Label(master, text='收　 　盤　　　價：').grid(row=4, sticky=tk.W)
-                tk.Label(master, text='經過調整的收盤價：').grid(row=5, sticky=tk.W)
+                tk.Label(master, text='經過調整 的收盤價：').grid(row=5, sticky=tk.W)
                 tk.Label(master, text='成　 　交　　　量：').grid(row=6, sticky=tk.W)
 
                 tk.Label(master, text=values[0]).grid(row=0,column=1, sticky=tk.W)
