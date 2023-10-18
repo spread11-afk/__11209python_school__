@@ -7,7 +7,7 @@
 
 [line_bot](https://github.com/spread11-afk/Line_Bot.git)
 
-## [10/16作業](https://github.com/spread11-afk/homework/test.py)
+## [10/16作業](https://github.com/spread11-afk/__11209python_school__/blob/main/homework/test.py)
 
 
 
