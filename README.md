@@ -7,7 +7,9 @@
 
 [line_bot](https://github.com/spread11-afk/Line_Bot.git)
 
-## [10/16作業](https://github.com/spread11-afk/__11209python_school__/blob/main/homework/test.py)
+[10/16作業](https://github.com/spread11-afk/__11209python_school__/blob/main/homework/test.py)
+
+## [10/18作業](https://github.com/spread11-afk/__11209python_school__/blob/main/homework/台積電資料庫.ipynb)
 
 
 
