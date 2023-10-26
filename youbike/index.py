@@ -14,21 +14,22 @@ class Window(tk.Tk):
             messagebox.showerror("錯誤",'網路不正常\n將關閉應用程式\n請稍後再試')
             self.destroy()
 
-def on_close(w:Window):
-    print('關閉')
-    t.cancel()
-    w.destroy()
 
 t = None
 
-def update_data()->None:
-    print('做事')
-    global t
-    t = Timer(20,update_data)
-    t.start()
-
-
 def main():
+    def on_close(w:Window):
+        print('關閉')
+        t.cancel()
+        w.destroy()
+
+    
+    def update_data()->None:
+        print('做事')
+        global t
+        t = Timer(20,update_data)
+        t.start()
+    
     window = Window()
     window.title('台北市youbike2.0')
     window.geometry('600x300')
