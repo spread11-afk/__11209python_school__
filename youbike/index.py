@@ -18,14 +18,14 @@ class Window(tk.Tk):
 t = None
 
 def main():
-    def on_close(w:Window):
+    def on_close():
         print('關閉')
         t.cancel()
-        w.destroy()
+        window.destroy()
 
     
     def update_data()->None:
-        print('做事')
+        datasource.updata_sqlite_data()
         global t
         t = Timer(20,update_data)
         t.start()
@@ -35,7 +35,7 @@ def main():
     window.geometry('600x300')
     window.resizable(width=False,height=False)    
     update_data()
-    window.protocol('WM_DELETE_WINDOW',lambda:on_close(window))
+    window.protocol('WM_DELETE_WINDOW',on_close)
     window.mainloop()
     
 
