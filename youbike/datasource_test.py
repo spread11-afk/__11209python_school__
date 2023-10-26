@@ -10,7 +10,7 @@ def __download_youbike_data()->list[dict]:
     youbike_url = 'https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json'
     response = requests.get(youbike_url)
     response.raise_for_status()
-    print('Success')
+    print("下載成功")
     return response.json()
 
 def __create_table(con):
@@ -37,9 +37,7 @@ def __create_table(con):
 def update_data_to_sqlite():
     '''下載、更新資料'''
     data = __download_youbike_data()
-    conn = sqlite3.connect('youtube.db')
+    conn = sqlite3.connect('youbike.db')
     __create_table(conn)
     
     
-    #for item in data:
-        #print(item)
