@@ -1,16 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
-import datasource
 from tkinter import messagebox
+import datasource_test
 
 
 class Window(tk.Tk):
-    def __init__(self, **kwargs) -> None:
+    def __init__(self,**kwargs):
         super().__init__(**kwargs)
         try:
-            datasource.download_youbike_data()
+            datasource_test.updata_sqlite_data()
         except Exception:
-            messagebox.showerror('Error','關閉視窗\n稍後再試')
+            messagebox.showerror("錯誤",'網路不正常\n將關閉應用程式\n請稍後再試')
             self.destroy()
 
 
@@ -19,11 +19,10 @@ class Window(tk.Tk):
 
 def main():
     window = Window()
-    window.title('youbike_ver2.0')
+    window.title('台北市youbike2.0')
     window.geometry('600x300')
-    window.resizable(width=False,height=False)
+    window.resizable(width=False,height=False)    
     window.mainloop()
-
 
 if __name__ == '__main__':
     main()
