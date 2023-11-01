@@ -1,42 +1,40 @@
 import tkinter as tk
 from tkinter import ttk
-import sqlite3
 
-def search_sitename(word: str) -> list[tuple]:
-    conn = sqlite3.connect("youbike.db")
-    cursor = conn.cursor()
-    sql = '''
-    SELECT 站點名稱,MAX(更新時間) AS 更新時間,行政區,地址,總車輛數,可借,可還
-    FROM 台北市youbike
-    WHERE 站點名稱 LIKE ?
-    GROUP BY 站點名稱
-    '''
-    cursor.execute(sql, [f'%{word}%'])
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return rows
-
-def search_button_clicked():
+def search_treeview():
     keyword = entry.get()
-    results = search_sitename(keyword)
-    listbox.delete(0, tk.END)
-    for result in results:
-        listbox.insert(tk.END, result)
+    if keyword:
+        for item in tree.get_children():
+            text = tree.item(item, "text")
+            if keyword.lower() in text.lower():
+                tree.selection_add(item)
+            else:
+                tree.selection_remove(item)
+    else:
+        for item in tree.get_children():
+            tree.selection_remove(item)
 
-app = tk.Tk()
-app.title("YouBike站点搜索")
+root = tk.Tk()
+root.title("Treeview with Search")
 
-# 创建ttk.Entry小部件
-entry = ttk.Entry(app)
-entry.pack(padx=10, pady=10)
+# 创建 Treeview
+tree = ttk.Treeview(root, columns=("Name", "Age"))
+tree.heading("#1", text="Name")
+tree.heading("#2", text="Age")
 
-# 创建一个按钮来执行搜索
-search_button = ttk.Button(app, text="搜索", command=search_button_clicked)
-search_button.pack(padx=10, pady=10)
+# 添加一些示例数据
+tree.insert("", "end", text="John", values=("30"))
+tree.insert("", "end", text="Alice", values=("25"))
+tree.insert("", "end", text="Bob", values=("35"))
+tree.insert("", "end", text="Charlie", values=("28"))
+tree.insert("", "end", text="David", values=("40"))
 
-# 创建一个列表框来显示搜索结果
-listbox = tk.Listbox(app)
-listbox.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+# 创建搜索框
+entry = tk.Entry(root, width=30)
+entry.pack()
+entry.bind("<KeyRelease>", lambda event: search_treeview())
 
-app.mainloop()
+# 显示 Treeview
+tree.pack()
+
+root.mainloop()

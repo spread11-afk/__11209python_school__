@@ -33,12 +33,23 @@ class Window(tk.Tk):
         vsb = ttk.Scrollbar(bottomFrame, orient="horizontal", command=self.youbikeTreeView.xview)
         vsb.pack(side='bottom',fill='x')
         self.youbikeTreeView.configure(yscrollcommand=vsb.set)
-        entry=ttk.Entry(bottomFrame)
-        #search = datasource.search_sitename()
-        datasource.search_sitename(entry)
-        entry.pack(side='top')
+        self.entry=ttk.Entry(bottomFrame)    #作業新增部分    
+        self.entry.pack(side='top')          #作業新增部分
+        self.entry.bind("<KeyRelease>", lambda event: self.update_treeview())  #作業新增部分
         self.youbikeTreeView.pack(side='left')
         bottomFrame.pack(pady=30)
+        
+    def update_treeview(self):       #作業新增部分
+        keyword = self.entry.get()
+        if keyword:
+            results = datasource.search_sitename(keyword)
+            # 清空 Treeview
+            for i in self.youbikeTreeView.get_children():
+                self.youbikeTreeView.delete(i)
+            # 在 Treeview 中显示搜索结果
+            for site in results:
+                self.youbikeTreeView.insert('', 'end', values=site)
+
 
 
 def main():
@@ -46,8 +57,10 @@ def main():
         datasource.updata_sqlite_data()
         lastest_data = datasource.lastest_datetime_data()
         w.youbikeTreeView.update_content(lastest_data)
-        window.after(1*60*1000, update_data, w)  # 每隔3分鐘
+        window.after(3*60*1000, update_data, w)  # 每隔3分鐘
 
+
+    
     window = Window()
     window.title('台北市youbike2.0')
     # window.geometry('600x300')

@@ -92,3 +92,4 @@ def search_sitename(word: str) -> list[tuple]:
     cursor.close()
     conn.close()
     return rows
+
