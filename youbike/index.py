@@ -34,11 +34,11 @@ class Window(tk.Tk):
         vsb.pack(side='bottom',fill='x')
         self.youbikeTreeView.configure(yscrollcommand=vsb.set)
         entry=ttk.Entry(bottomFrame)
-        search = datasource.search_sitename()
+        #search = datasource.search_sitename()
+        datasource.search_sitename(entry)
         entry.pack(side='top')
         self.youbikeTreeView.pack(side='left')
         bottomFrame.pack(pady=30)
-        #print(datasource.search_sitename('三'))
 
 
 def main():
