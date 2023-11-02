@@ -22,6 +22,10 @@ class YoubikeTreeView(ttk.Treeview):
         self.column('sbi', minwidth=0)
         self.column('bemp', minwidth=0)
 
+        # ----------(bind_button1)----------
+        self.bind('<ButtonRelease-1>',self.selectItem)
+
+
     def update_content(self, site_datas):
         '''
         更新內容
@@ -31,3 +35,10 @@ class YoubikeTreeView(ttk.Treeview):
 
         for site in site_datas:
             self.insert('', 'end', values=site)
+
+
+    def selectItem(self,event):
+        selectItem = self.focus()
+        print(selectItem)
+        print(self.item(selectItem))
+
