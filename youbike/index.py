@@ -27,19 +27,22 @@ class Window(tk.Tk):
         # ---------------建立treeView---------------
         self.youbikeTreeView = YoubikeTreeView(bottomFrame, show="headings", columns=(
             'sna', 'mday', 'sarea', 'ar', 'tot', 'sbi', 'bemp'))
-        vsb = ttk.Scrollbar(bottomFrame, orient="vertical", command=self.youbikeTreeView.yview)
-        vsb.pack(side='right',fill='y')
+        vsb = ttk.Scrollbar(bottomFrame, orient="vertical",
+                            command=self.youbikeTreeView.yview)
+        vsb.pack(side='right', fill='y')
         self.youbikeTreeView.configure(yscrollcommand=vsb.set)
-        vsb = ttk.Scrollbar(bottomFrame, orient="horizontal", command=self.youbikeTreeView.xview)
-        vsb.pack(side='bottom',fill='x')
+        vsb = ttk.Scrollbar(bottomFrame, orient="horizontal",
+                            command=self.youbikeTreeView.xview)
+        vsb.pack(side='bottom', fill='x')
         self.youbikeTreeView.configure(yscrollcommand=vsb.set)
-        self.entry=ttk.Entry(bottomFrame)    #作業新增部分    
-        self.entry.pack(side='top')          #作業新增部分
-        self.entry.bind("<KeyRelease>", lambda event: self.update_treeview())  #作業新增部分
+        self.entry = ttk.Entry(bottomFrame, justify='left')  # 作業新增部分
+        self.entry.pack(side='top')  # 作業新增部分
+        self.entry.bind(
+            "<KeyRelease>", lambda event: self.update_treeview())  # 作業新增部分
         self.youbikeTreeView.pack(side='left')
-        bottomFrame.pack(pady=30)
-        
-    def update_treeview(self):       #作業新增部分
+        bottomFrame.pack(pady=30, padx=20)
+
+    def update_treeview(self):  # 作業新增部分
         keyword = self.entry.get()
         if keyword:
             results = datasource.search_sitename(keyword)
@@ -51,7 +54,6 @@ class Window(tk.Tk):
                 self.youbikeTreeView.insert('', 'end', values=site)
 
 
-
 def main():
     def update_data(w: Window) -> None:
         datasource.updata_sqlite_data()
@@ -59,8 +61,6 @@ def main():
         w.youbikeTreeView.update_content(lastest_data)
         window.after(3*60*1000, update_data, w)  # 每隔3分鐘
 
-
-    
     window = Window()
     window.title('台北市youbike2.0')
     # window.geometry('600x300')
