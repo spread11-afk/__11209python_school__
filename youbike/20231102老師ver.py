@@ -1,6 +1,6 @@
 import tkinter as tk
-from youbiketreeview import YoubikeTreeView
 from tkinter import ttk
+from youbiketreeview import YoubikeTreeView
 from tkinter import messagebox
 from threading import Timer
 import datasource
@@ -22,47 +22,50 @@ class Window(tk.Tk):
         tk.Label(topFrame, text="台北市youbike及時資料", font=("arial", 20),
                  bg="#333333", fg='#ffffff', padx=10, pady=10).pack(padx=20, pady=20)
         topFrame.pack(pady=30)
+        # ---------------------------------------
 
-        bottomFrame = tk.Frame(self)
+        # ----------建立搜尋------------------------
+        middleFrame = ttk.LabelFrame(self, text='')
+        tk.Label(middleFrame, text='站點名稱搜尋:').pack(side='left')
+        search_entry = tk.Entry(middleFrame)
+        search_entry.bind("<KeyRelease>", self.OnEntryClick)
+        search_entry.pack(side='left')
+        middleFrame.pack(fill='x', padx=20)
+        # ----------------------------------------
+
         # ---------------建立treeView---------------
-        self.youbikeTreeView = YoubikeTreeView(bottomFrame, show="headings", columns=(
-            'sna', 'mday', 'sarea', 'ar', 'tot', 'sbi', 'bemp'))
+        bottomFrame = tk.Frame(self)
+
+        self.youbikeTreeView = YoubikeTreeView(bottomFrame, show="headings",
+                                               columns=(
+                                                   'sna', 'mday', 'sarea', 'ar', 'tot', 'sbi', 'bemp'),
+                                               height=20)
+        self.youbikeTreeView.pack(side='left')
         vsb = ttk.Scrollbar(bottomFrame, orient="vertical",
                             command=self.youbikeTreeView.yview)
-        vsb.pack(side='right', fill='y')
+        vsb.pack(side='left', fill='y')
         self.youbikeTreeView.configure(yscrollcommand=vsb.set)
-        vsb = ttk.Scrollbar(bottomFrame, orient="horizontal",
-                            command=self.youbikeTreeView.xview)
-        vsb.pack(side='bottom', fill='x')
-        self.youbikeTreeView.configure(yscrollcommand=vsb.set)
-        self.entry = ttk.Entry(bottomFrame, justify='left')  # 作業新增部分
-        self.entry.pack(side='top',expand=True)  # 作業新增部分
-        self.entry.bind(
-            "<KeyRelease>", lambda event: self.update_treeview())  # 作業新增部分
-        self.youbikeTreeView.pack(side='left')
-        bottomFrame.pack(pady=30, padx=20)
+        bottomFrame.pack(pady=(0, 30), padx=20)
+        # -------------------------------------------
 
-    def update_treeview(self):  # 作業新增部分
-        keyword = self.entry.get()
-        if keyword =='':
-            lastest_data = datasource.lastest_datetime_data()
-            self.youbikeTreeView.update_content(lastest_data)
-        else: 
-
-            results = datasource.search_sitename(keyword)
-            # 清空 Treeview
-            for i in self.youbikeTreeView.get_children():
-                self.youbikeTreeView.delete(i)
-            # 在 Treeview 中显示搜索结果
-            for site in results:
-                self.youbikeTreeView.insert('', 'end', values=site)
+    def OnEntryClick(self, event):
+        searchEntry = event.widget
+        # 使用者輸入的文字
+        input_word = searchEntry.get()
+        if input_word == "":
+            print("空的")
+        else:
+            search_data = datasource.search_sitename(word=input_word)
+            self.youbikeTreeView.update_content(search_data)
 
 
 def main():
     def update_data(w: Window) -> None:
         datasource.updata_sqlite_data()
+        # -----------更新treeView資料---------------
         lastest_data = datasource.lastest_datetime_data()
         w.youbikeTreeView.update_content(lastest_data)
+
         window.after(3*60*1000, update_data, w)  # 每隔3分鐘
 
     window = Window()

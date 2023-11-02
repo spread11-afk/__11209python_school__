@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+
 def search_treeview():
     keyword = entry.get()
     if keyword:
@@ -13,6 +14,7 @@ def search_treeview():
     else:
         for item in tree.get_children():
             tree.selection_remove(item)
+
 
 root = tk.Tk()
 root.title("Treeview with Search")

@@ -1,7 +1,6 @@
 from tkinter import ttk
 
 
-
 class YoubikeTreeView(ttk.Treeview):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
@@ -32,4 +31,3 @@ class YoubikeTreeView(ttk.Treeview):
 
         for site in site_datas:
             self.insert('', 'end', values=site)
-
