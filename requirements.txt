@@ -1,5 +1,10 @@
-PyInputPlus>=0.2.12
+PyInputPlus
 requests
+dash
 Pillow
 yfinance
 tkintermapview
+pandas
+gunicorn
+flask
+psycopg2-binary
