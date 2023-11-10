@@ -1,6 +1,7 @@
 import requests
-import password as pw
 import psycopg2
+import password as pw
+
 
 def __download_youbike_data() -> list[dict]:
     '''
@@ -14,11 +15,11 @@ def __download_youbike_data() -> list[dict]:
     return response.json()
 
 
-def __create_table(conn)->None:
+def __create_table(conn) -> None:
     cursor = conn.cursor()
     cursor.execute(
         '''
-CREATE TABLE  IF NOT EXISTS 台北市youbike(
+        CREATE TABLE  IF NOT EXISTS 台北市youbike(
             "id"	SERIAL,
             "站點名稱"	TEXT NOT NULL,
             "行政區"	TEXT NOT NULL,
@@ -40,16 +41,16 @@ CREATE TABLE  IF NOT EXISTS 台北市youbike(
 def __insert_data(conn, values: list[any]) -> None:
     cursor = conn.cursor()
     sql = '''
-    INSERT INTO 台北市youbike(站點名稱,行政區,更新時間,地址,總車輛數,可借,可還)
-        VALUES(%s,%s,%s,%s,%s,%s,%s)
-        ON CONFLICT (站點名稱,更新時間) DO NOTHING
+    INSERT INTO 台北市youbike (站點名稱, 行政區, 更新時間, 地址, 總車輛數, 可借, 可還) 
+    VALUES (%s,%s,%s,%s,%s,%s,%s)
+    ON CONFLICT (站點名稱,更新時間) DO NOTHING
     '''
     cursor.execute(sql, values)
     conn.commit()
     cursor.close()
 
 
-def updata_sqlite_data() -> None:
+def updata_render_data() -> None:
     '''
     下載,並更新資料庫
     '''
@@ -59,8 +60,29 @@ def updata_sqlite_data() -> None:
                             password=pw.PASSWORD,
                             host=pw.HOST,
                             port="5432")
+
     __create_table(conn)
     for item in data:
         __insert_data(conn, [item['sna'], item['sarea'], item['mday'],
                       item['ar'], item['tot'], item['sbi'], item['bemp']])
     conn.close()
+
+
+def lastest_datetime_data() -> list[tuple]:
+    conn = psycopg2.connect(database=pw.DATABASE,
+                            user=pw.USER,
+                            password=pw.PASSWORD,
+                            host=pw.HOST,
+                            port="5432")
+    cursor = conn.cursor()
+    sql = '''
+    SELECT 站點名稱,MAX(更新時間) AS 更新時間,行政區,地址,總車輛數,可借,可還
+    FROM 台北市youbike
+    GROUP BY 站點名稱,行政區,地址,總車輛數,可借,可還
+    '''
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return rows
