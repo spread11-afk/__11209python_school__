@@ -3,7 +3,7 @@ import requests,csv,io
 __ceties = []
 
 def __download()->list[list]:
-    url = 'https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=CA18EE06-4A50-4861-9D97-7853353D7108'
+    url = 'https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=apikey'
 
     response = requests.request('GET',url)
     try:
