@@ -76,9 +76,11 @@ def lastest_datetime_data() -> list[tuple]:
                             port="5432")
     cursor = conn.cursor()
     sql = '''
-    SELECT 站點名稱,MAX(更新時間) AS 更新時間,行政區,地址,總車輛數,可借,可還
+    SELECT *FROM 台北市youbike WHERE (更新時間,站點名稱) IN (
+    SELECT MAX(更新時間),站點名稱
     FROM 台北市youbike
-    GROUP BY 站點名稱,行政區,地址,總車輛數,可借,可還
+    GROUP BY 站點名稱
+)
     '''
     cursor.execute(sql)
     rows = cursor.fetchall()
