@@ -2,6 +2,8 @@ import requests
 import psycopg2
 import password as pw
 
+threadRun = True  # 次執行緒是否執行
+
 
 def __download_youbike_data() -> list[dict]:
     '''
@@ -63,8 +65,11 @@ def updata_render_data() -> None:
 
     __create_table(conn)
     for item in data:
-        __insert_data(conn, [item['sna'], item['sarea'], item['mday'],
-                      item['ar'], item['tot'], item['sbi'], item['bemp']])
+        if threadRun == True:  # 檢查次執行緒是否執行
+            __insert_data(conn, [item['sna'], item['sarea'], item['mday'],
+                          item['ar'], item['tot'], item['sbi'], item['bemp']])
+        else:
+            break  # 次執行緒強制執行
     conn.close()
 
 
@@ -76,15 +81,40 @@ def lastest_datetime_data() -> list[tuple]:
                             port="5432")
     cursor = conn.cursor()
     sql = '''
-    SELECT *FROM 台北市youbike WHERE (更新時間,站點名稱) IN (
-    SELECT MAX(更新時間),站點名稱
+    SELECT 站點名稱,更新時間,行政區,地址,總車輛數,可借,可還
     FROM 台北市youbike
-    GROUP BY 站點名稱
-)
+    WHERE 更新時間 IN (
+	    SELECT MAX(更新時間)
+	    FROM 台北市youbike
+	    GROUP BY 站點名稱
+    );
     '''
     cursor.execute(sql)
     rows = cursor.fetchall()
     cursor.close()
     conn.close()
 
+    return rows
+
+
+def search_sitename(word: str) -> list[tuple]:
+    conn = psycopg2.connect(database=pw.DATABASE,
+                            user=pw.USER,
+                            password=pw.PASSWORD,
+                            host=pw.HOST,
+                            port="5432")
+    cursor = conn.cursor()
+    sql = '''
+        SELECT *
+        FROM 台北市youbike
+        WHERE (更新時間,站點名稱) IN (
+	          SELECT MAX(更新時間),站點名稱
+	          FROM 台北市youbike
+	            GROUP BY 站點名稱
+        )  AND 站點名稱 like %s
+        '''
+    cursor.execute(sql, [f'%{word}%'])
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
     return rows
