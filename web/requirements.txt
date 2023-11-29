@@ -1,6 +1,6 @@
 requests
+flask
 pandas
 gunicorn
-flask
 psycopg2-binary
 dash
