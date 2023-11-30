@@ -5,3 +5,6 @@ gunicorn
 psycopg2-binary
 dash
 password
+plotly.express
+seaborn
+matplotlib
