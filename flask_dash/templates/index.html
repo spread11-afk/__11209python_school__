@@ -1,20 +1,25 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
+{% extends "base_navigation.html" %}
+{% block title %}Flask_Dash{% endblock %}
+{% block head %}
+{{ super() }}
+<style>
+    @media (min-width: 576px) {}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask_Dash</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
 
-</head>
+    @media (min-width: 768px) {}
 
-<body>
-    <h1>
-        Flask_Dash
-        <small class="text-body-secondary">With faded secondary text</small>
-    </h1>
-    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
-</body>
 
-</html>
+    @media (min-width: 992px) {}
+
+
+    @media (min-width: 1200px) {}
+
+
+    @media (min-width: 1400px) {}
+</style>
+{% endblock %}
+{% block content %}<h1>Flask_Dash</h1>
+<div id="content-lg">{{super()}}</div>{% endblock %}
+{% block footer %}
+&copy; Copyright 2008 by <a href="https://flask-dash-web-0zgq.onrender.com">123456</a>.
+{% endblock %}
