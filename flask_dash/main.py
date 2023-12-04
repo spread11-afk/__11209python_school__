@@ -7,8 +7,9 @@ app = Flask(__name__)
 
 application = DispatcherMiddleware(
     app,
-    {"/dash/app1": dash1.server},
+    {"/app1": dash1.server},
 )
+
 @app.route("/")
 def index():
     return render_template('index.html')
