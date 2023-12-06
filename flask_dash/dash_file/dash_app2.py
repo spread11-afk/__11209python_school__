@@ -16,7 +16,16 @@ lastest_df1 = lastest_df.reset_index()
 lastest_df1['站點名稱'] = lastest_df1['站點名稱'].map(lambda name:name[11:])
 
 
-dash2.layout = html.Div([dbc.Container([html.Div([html.Div([html.H1('Youbike即時資料')],className='col text-center')],className='row'),html.Div([html.Div([html.H1('顯示表格資料')],className='col text-center')],className='row',style={'pandingTop':'2rem'}),html.Div([html.Div([dash_table.DataTable(data=lastest_df.to_dict('records'),columns=[{'id':column,'name':column} for column in lastest_df.columns],
-                        page_size=20,                        style_table={'height': '300px', 'overflowY': 'auto'},
-                        fixed_rows={'headers': True}
-                    )],className="col text-center")],className="row",style={"paddingTop":'2rem'})])],className='container-lg')
+dash2.layout = html.Div([dbc.Container([html.Div([html.Div([html.H1('Youbike即時資料')],className='col text-center')],className='row'),html.Div([html.Div([html.H1('顯示表格資料')],className='col text-center')],className='row',style={'pandingTop':'2rem'}),html.Div([html.Div([dash_table.DataTable(data=lastest_df1.to_dict('records'),columns=[{'id':column,'name':column} for column in lastest_df1.columns],page_size=20,style_table={'height': '300px', 'overflowY': 'auto'},fixed_rows={'headers': True},style_cell_conditional=[
+                                {   'if': {'column_id': 'index'},
+                                 'width': '5%'
+                                },
+                                {   'if': {'column_id': '站點名稱'},
+                                 'width': '25%'},
+                                {   'if': {'column_id': '總數'},
+                                 'width': '5%'},
+                                {   'if': {'column_id': '可借'},
+                                 'width': '5%'},
+                                {   'if': {'column_id': '可還'},
+                                 'width': '5%'},
+                        ])],className="col text-center")],className="row",style={"paddingTop":'2rem'})])],className='container-lg')
