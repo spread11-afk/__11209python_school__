@@ -2,24 +2,21 @@ from dash import Dash, html,dash_table
 import pandas as pd
 import dash_bootstrap_components as dbc
 from collections import OrderedDict
+from . import datasource
+import pandas as pd
+
 
 dash2 = Dash(requests_pathname_prefix="/dash/app2/",external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 dash2.title = 'Youbike即時資料'
 
-data = OrderedDict(
-    [
-        ("Date", ["2015-01-01", "2015-10-24", "2016-05-10", "2017-01-10", "2018-05-10", "2018-08-15"]),
-        ("Region", ["Montreal", "Toronto", "New York City", "Miami", "San Francisco", "London"]),
-        ("Temperature", [1, -20, 3.512, 4, 10423, -441.2]),
-        ("Humidity", [10, 20, 30, 40, 50, 60]),
-        ("Pressure", [2, 10924, 3912, -10, 3591.2, 15]),
-    ])
+lastest_data=datasource.lastest_datetime_data()
+lastest_df=pd.DataFrame(lastest_data,columns=['站點名稱','更新時間','行政區','地址','總數','可借','可還',])
+lastest_df1 = lastest_df.reset_index()
+lastest_df1['站點名稱'] = lastest_df1['站點名稱'].map(lambda name:name[11:])
 
-df = pd.DataFrame(
-    OrderedDict([(name, col_data * 10) for (name, col_data) in data.items()])
-)
 
-dash2.layout = html.Div([dbc.Container([html.Div([html.Div([html.H1('Youbike即時資料')],className='col text-center')],className='row'),html.Div([html.Div([html.H1('顯示表格資料')],className='col text-center')],className='row',style={'pandingTop':'2rem'}),html.Div([html.Div([dash_table.DataTable(df.to_dict('records'),columns=[{'id':column,'name':column} for column in df.columns],
-                        page_size=20
+dash2.layout = html.Div([dbc.Container([html.Div([html.Div([html.H1('Youbike即時資料')],className='col text-center')],className='row'),html.Div([html.Div([html.H1('顯示表格資料')],className='col text-center')],className='row',style={'pandingTop':'2rem'}),html.Div([html.Div([dash_table.DataTable(data=lastest_df.to_dict('records'),columns=[{'id':column,'name':column} for column in lastest_df.columns],
+                        page_size=20,                        style_table={'height': '300px', 'overflowY': 'auto'},
+                        fixed_rows={'headers': True}
                     )],className="col text-center")],className="row",style={"paddingTop":'2rem'})])],className='container-lg')
