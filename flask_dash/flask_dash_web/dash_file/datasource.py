@@ -5,7 +5,7 @@ import socket
 import os
 
 myip = socket.gethostbyname(socket.gethostname())
-if '172.17.0.0'<= myip <= '172.17.255.255':
+if '172.17.0.0'<= myip <= '172.19.112.1':
     from . import password as pw
     print("本機")
     DATABASE = pw.DATABASE
