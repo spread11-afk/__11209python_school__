@@ -29,9 +29,9 @@ def lastest_datetime_data()->list[tuple]:
 
 def search_sitename(word:str) -> list[tuple]:
     conn = psycopg2.connect(database=pw.DATABASE,
-                            user=pw.USER, 
-                            password=pw.PASSWORD,
-                            host=pw.HOST, 
+                            user=os.environ['USER'], 
+                            password=os.environ['PASSWORD'],
+                            host=os.environ['HOST'], 
                             port="5432")
     cursor = conn.cursor()
     sql = '''
