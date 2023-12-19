@@ -3,6 +3,7 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from dash_file.dash_app1 import dash1
 from dash_file.dash_app2 import dash2
 from werkzeug.serving import run_simple
+from auth.auth import blueprint_auth
 
 app = Flask(__name__)
 
@@ -11,6 +12,8 @@ application = DispatcherMiddleware(
     {"/dash/app1": dash1.server,
     "/dash/app2": dash2.server}
 )
+
+app.register_blueprint(blueprint_auth)
 
 @app.route("/")
 def index():
