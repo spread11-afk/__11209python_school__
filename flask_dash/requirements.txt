@@ -6,3 +6,4 @@ pandas
 dash-bootstrap-components
 psycopg2
 password
+flask_wtf
