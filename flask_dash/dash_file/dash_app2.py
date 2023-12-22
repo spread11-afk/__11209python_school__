@@ -2,11 +2,9 @@ from dash import Dash, html,dash_table,Input,Output,callback,dcc,State
 import pandas as pd
 import dash_bootstrap_components as dbc
 from . import datasource
-# import datasource
 import pandas as pd
 
-
-dash2 = Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP])
+dash2 = Dash(requests_pathname_prefix="/dash/app2/",external_stylesheets=[dbc.themes.BOOTSTRAP])
 dash2.title = "台北市youbike及時資料"
 current_data = datasource.lastest_datetime_data()
 current_df = pd.DataFrame(current_data,columns=['站點名稱','更新時間','行政區','地址','總數','可借','可還'])
@@ -33,10 +31,7 @@ dash2.layout = html.Div(    [
                 ],className="col"),
                 html.Div([
                     html.Button('確定', id='submit-val',className="btn btn-primary")
-                    ],className="col"),
-                html.Div(children="輸入內容",
-                         id="output-content",
-                         className="col"),
+                    ],className="col"),                
             ],
             className="row row-cols-auto align-items-end",
             style={"paddingTop":'2rem'}),
@@ -78,7 +73,6 @@ dash2.layout = html.Div(    [
     className="container-lg"
     )
 
-
 @callback(
         [Output('main_table','data'),Output('main_table','columns'),Output('main_table','selected_rows')],
         [Input('submit-val','n_clicks')],
@@ -116,6 +110,3 @@ def selectedRow(selected_rows:list[int]):
         return oneTable
     
     return None
-
-if __name__ == "__main__":
-     dash2.run(host='127.0.0.1', port=8050, debug=True)
