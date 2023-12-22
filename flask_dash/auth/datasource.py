@@ -1,6 +1,9 @@
 import psycopg2
 from . import password as pw
+from werkzeug.security import check_password_hash
 
+class InvolidEmailException(Exception):
+    pass
 
 def insert_data(values:list[any] |None = None)->None:
     conn = psycopg2.connect(database=pw.DATABASE,user=pw.USER,password=pw.PASSWORD,host=pw.HOST,port='5432')
@@ -12,7 +15,29 @@ def insert_data(values:list[any] |None = None)->None:
     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
 
 '''
-    cursor.execute(insertSql,values)
+    try:
+        cursor.execute(insertSql,values)
+    except psycopg2.errors.UniqueViolation:
+        raise InvolidEmailException
+    except:
+        raise RuntimeError
     conn.commit()
     cursor.close()
     conn.close
+
+def validateUser(email:str,password:str)->tuple[bool,str]:
+    conn = psycopg2.connect(database=pw.DATABASE,user=pw.USER,password=pw.PASSWORD,host=pw.HOST,port='5432')
+    cusor = conn.cursor()
+    sql = '''
+        select 密碼,姓名
+        from 使用者
+        where 電子郵件 = %s
+'''
+    cusor.execute(sql,[email])
+    searchData:tuple[str,str] = cusor.fetchone()
+    hash_password,username = searchData
+    is_ok:bool = check_password_hash(hash_password,password)
+    cusor.close()
+    conn.close()
+
+    return (is_ok,username)

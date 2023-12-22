@@ -18,8 +18,17 @@
     @media (min-width: 1400px) {}
 </style>
 {% endblock %}
-{% block content %}<h1>Flask_Dash</h1>
-<div id="content-lg">{{super()}}</div>{% endblock %}
+{% block content %}
+<div class="container-lg">
+    <h1>Flask_Dash__及時更新</h1>
+    {% if username %}
+    <h5>{{username}},歡迎光臨</h5>
+    {% endif %}
+    {{ super() }}
+</div>
+
+{% endblock %}
+
 {% block footer %}
 &copy; Copyright 2008 by <a href="https://flask-dash-web-0zgq.onrender.com">123456</a>.
 {% endblock %}

@@ -40,6 +40,17 @@
                     <th scope="row" class="col-2 text-end">{{ form.email.label }}</th>
                     <td>
                         {{ form.email(class='form-control') }}
+                        {% if form.email.errors %}
+                        <ul class="errors">
+                            {% for error in form.email.errors %}
+                            <li>
+                                <div class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </div>
+                            </li>
+
+                            {% endfor %}
+                            {% endif %}
                     </td>
 
                 </tr>
@@ -69,5 +80,5 @@
 
 
 {% block footer %}
-&copy; Copyright 2023 by <a href="https://flask-dash-web-uym5.onrender.com">徐國堂</a>.
+&copy; Copyright 2023 by <a href="https://flask-dash-web-uym5.onrender.com">123456</a>.
 {% endblock %}
